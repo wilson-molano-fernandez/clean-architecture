@@ -1,0 +1,12 @@
+{
+    "development": {
+      "dotnetVersion": "8.0.x",
+      "dockerImage": "myapp-dev",
+      "dockerRegistry": "docker.io"
+    },
+    "production": {
+      "dotnetVersion": "8.0.x",
+      "dockerImage": "myapp-prod",
+      "dockerRegistry": "docker.io"
+    }
+  }
