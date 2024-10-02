@@ -1,0 +1,51 @@
+name: .NET Core CI Workflow
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Print environment
+      run: | 
+        echo "Environment: ${{ inputs.environment }}"
+
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Read environment config
+      id: config
+      uses: actions/github-script@v5
+      with:
+        script: |
+          const config = require('./env-config.json');
+          const envConfig = config[${{ inputs.environment }}];
+          core.setOutput('dotnetVersion', envConfig.dotnetVersion);
+          core.setOutput('dockerImage', envConfig.dockerImage);
+          core.setOutput('dockerRegistry', envConfig.dockerRegistry);
+
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ steps.config.outputs.dotnetVersion }}
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --no-restore
+
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+
+    # - name: Build Docker Image
+    #   if: ${{ inputs.environment == 'production' }}
+    #   run: |
+    #     docker build -t ${{ steps.config.outputs.dockerRegistry }}/${{ steps.config.outputs.dockerImage }}:${{ github.sha }} .
+    #     docker push ${{ steps.config.outputs.dockerRegistry }}/${{ steps.config.outputs.dockerImage }}:${{ github.sha }}

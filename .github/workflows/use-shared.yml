@@ -1,0 +1,15 @@
+name: Use Reusable .NET Core CI Workflow
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  call-reusable-workflow:
+    uses: ${{ github.repository }}/.github/workflows/dotnet-ci-workflow.yml@main
+    with:
+      environment: 'development'
