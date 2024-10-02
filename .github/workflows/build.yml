@@ -22,26 +22,22 @@ jobs:
       - name: Echo package.json
         run: echo "${{ steps.package.outputs.content }}"
 
-      - name: Print config file
-        run: |
-          echo ${{ github.repository }}/.github//workflows/env-config.json
-          cat ${{ github.repository }}/.github//workflows/env-config.json
-
       - name: Read environment config
         id: config
         uses: actions/github-script@v5
         with:
           script: |
             const config = require('./env-config.json');
-            const envConfig = config[${{ inputs.environment }}];
+            const envConfig = config[${{ steps.config.outputs.content }}];
             core.setOutput('dotnetVersion', envConfig.dotnetVersion);
             core.setOutput('dockerImage', envConfig.dockerImage);
             core.setOutput('dockerRegistry', envConfig.dockerRegistry);
+
       - uses: actions/checkout@v2
       - name: Setup .NET
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 8.0.x
+          dotnet-version: ${{ steps.config.outputs.dotnetVersion }}
       - name: Restore dependencies
         run: dotnet restore
       - name: Build
