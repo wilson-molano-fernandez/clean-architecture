@@ -10,6 +10,7 @@ on:
 
 jobs:
   call-reusable-workflow:
-    uses: ./.github/workflows/dotnet-ci-workflow.yml@main
+    uses: wilson-molano-fernandez/clean-architecture/.github/workflows/dotnet-ci-workflow.yml@main
     with:
       environment: 'development'
+      
