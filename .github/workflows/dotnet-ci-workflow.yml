@@ -24,7 +24,17 @@ jobs:
       uses: actions/github-script@v5
       with:
         script: |
-          const config = require('./github/workflows/env-config.json');
+          const fs = require('fs');
+          const path = require('path');
+    
+          // Construct the absolute path to the config file
+          const configPath = path.join(process.env.GITHUB_WORKSPACE, 'env-config.json');
+    
+          // Read the configuration file
+          const configFile = fs.readFileSync(configPath);
+          const config = JSON.parse(configFile);
+    
+          // Extract environment-specific config
           const envConfig = config[${{ inputs.environment }}];
           core.setOutput('dotnetVersion', envConfig.dotnetVersion);
           core.setOutput('dockerImage', envConfig.dockerImage);
