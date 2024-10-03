@@ -29,18 +29,22 @@ jobs:
         script: |
           const fs = require('fs');
           const path = require('path');
+    
+          // Construct the absolute path to the config file
           const configPath = path.join(process.env.GITHUB_WORKSPACE, 'env-config.json');
-          console.log("Config path:", configPath);
+    
+          // Read the configuration file
           const configFile = fs.readFileSync(configPath);
-          console.log("Config file raw content:", configFile.toString());
           const config = JSON.parse(configFile.toString());
-          console.log("Parsed config:", config);
-
-          const env = '${{ inputs.environment }}';
-          console.log("Environment variable:", env);
-
-          const envConfig = config[env];
+    
+          // Extract environment-specific config
+          const env = '${{ inputs.environment }}'; // Correctly assign input to a variable
+          const envConfig = config[env]; // Use the variable to access property
           console.log("Environment config:", envConfig);
+    
+          core.setOutput('dotnetVersion', envConfig.dotnetVersion);
+          core.setOutput('dockerImage', envConfig.dockerImage);
+          core.setOutput('dockerRegistry', envConfig.dockerRegistry);
 
     # - name: Show environment config
     #   run: |
