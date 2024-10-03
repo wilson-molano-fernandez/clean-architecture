@@ -19,7 +19,7 @@ jobs:
     - name: Checkout config file
       uses: actions/checkout@v4
       with: 
-        repository: ${{ github.repository }}
+        repository: 'wilson-molano-fernandez/clean-architecture'
 
     # - name: List files in the repository
     #   run: ls -R
