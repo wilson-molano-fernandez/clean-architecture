@@ -16,40 +16,40 @@ jobs:
       run: | 
         echo "Environment: ${{ inputs.environment }}"
 
-    - name: Checkout code
-      uses: actions/checkout@v2
+    # - name: Checkout code
+    #   uses: actions/checkout@v2
 
-    - name: Read environment config
-      id: config
-      uses: actions/github-script@v5
-      with:
-        script: |
-          const config = require('./env-config.json');
-          const envConfig = config[${{ inputs.environment }}];
-          core.setOutput('dotnetVersion', envConfig.dotnetVersion);
-          core.setOutput('dockerImage', envConfig.dockerImage);
-          core.setOutput('dockerRegistry', envConfig.dockerRegistry);
+    # - name: Read environment config
+    #   id: config
+    #   uses: actions/github-script@v5
+    #   with:
+    #     script: |
+    #       const config = require('./env-config.json');
+    #       const envConfig = config[${{ inputs.environment }}];
+    #       core.setOutput('dotnetVersion', envConfig.dotnetVersion);
+    #       core.setOutput('dockerImage', envConfig.dockerImage);
+    #       core.setOutput('dockerRegistry', envConfig.dockerRegistry);
 
-    - name: Show environment config
-      run: |
-        echo "Dotnet Version: ${{ steps.config.outputs.dotnetVersion }}"
-        echo "Docker Image: ${{ steps.config.outputs.dockerImage }}"
-        echo "Docker Registry: ${{ steps.config.outputs.dockerRegistry }}"
+    # - name: Show environment config
+    #   run: |
+    #     echo "Dotnet Version: ${{ steps.config.outputs.dotnetVersion }}"
+    #     echo "Docker Image: ${{ steps.config.outputs.dockerImage }}"
+    #     echo "Docker Registry: ${{ steps.config.outputs.dockerRegistry }}"
 
         
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: ${{ steps.config.outputs.dotnetVersion }}
+    # - name: Setup .NET Core
+    #   uses: actions/setup-dotnet@v1
+    #   with:
+    #     dotnet-version: ${{ steps.config.outputs.dotnetVersion }}
 
-    - name: Restore dependencies
-      run: dotnet restore
+    # - name: Restore dependencies
+    #   run: dotnet restore
 
-    - name: Build
-      run: dotnet build --no-restore
+    # - name: Build
+    #   run: dotnet build --no-restore
 
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+    # - name: Test
+    #   run: dotnet test --no-build --verbosity normal
 
     # - name: Build Docker Image
     #   if: ${{ inputs.environment == 'production' }}
