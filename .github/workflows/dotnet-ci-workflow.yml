@@ -16,19 +16,19 @@ jobs:
       run: | 
         echo "Environment: ${{ inputs.environment }}"
 
-    # - name: Checkout code
-    #   uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-    # - name: Read environment config
-    #   id: config
-    #   uses: actions/github-script@v5
-    #   with:
-    #     script: |
-    #       const config = require('./env-config.json');
-    #       const envConfig = config[${{ inputs.environment }}];
-    #       core.setOutput('dotnetVersion', envConfig.dotnetVersion);
-    #       core.setOutput('dockerImage', envConfig.dockerImage);
-    #       core.setOutput('dockerRegistry', envConfig.dockerRegistry);
+    - name: Read environment config
+      id: config
+      uses: actions/github-script@v5
+      with:
+        script: |
+          const config = require('./env-config.json');
+          const envConfig = config[${{ inputs.environment }}];
+          core.setOutput('dotnetVersion', envConfig.dotnetVersion);
+          core.setOutput('dockerImage', envConfig.dockerImage);
+          core.setOutput('dockerRegistry', envConfig.dockerRegistry);
 
     # - name: Show environment config
     #   run: |
