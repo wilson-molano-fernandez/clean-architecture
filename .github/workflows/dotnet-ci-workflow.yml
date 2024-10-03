@@ -28,7 +28,7 @@ jobs:
           const path = require('path');
     
           // Construct the absolute path to the config file
-          const configPath = path.join(process.env.GITHUB_WORKSPACE, '/.github/workflows/env-config.json');
+          const configPath = path.join(process.env.GITHUB_WORKSPACE, '.github/workflows/env-config.json');
     
           // Read the configuration file
           const configFile = fs.readFileSync(configPath);
