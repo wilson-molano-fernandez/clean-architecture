@@ -16,7 +16,7 @@ jobs:
       run: | 
         echo "Environment: ${{ inputs.environment }}"
 
-    - name: Checkout code
+    - name: Checkout config file
       uses: actions/checkout@v4
       with: 
         repository: ${{ github.repository }}
