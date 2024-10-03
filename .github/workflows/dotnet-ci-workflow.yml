@@ -19,8 +19,8 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: List files in the repository
-      run: ls -R
+    # - name: List files in the repository
+    #   run: ls -R
 
     - name: Read environment config
       id: config
@@ -46,11 +46,11 @@ jobs:
           core.setOutput('dockerImage', envConfig.dockerImage);
           core.setOutput('dockerRegistry', envConfig.dockerRegistry);
 
-    # - name: Show environment config
-    #   run: |
-    #     echo "Dotnet Version: ${{ steps.config.outputs.dotnetVersion }}"
-    #     echo "Docker Image: ${{ steps.config.outputs.dockerImage }}"
-    #     echo "Docker Registry: ${{ steps.config.outputs.dockerRegistry }}"
+    - name: Show environment config
+      run: |
+        echo "Dotnet Version: ${{ steps.config.outputs.dotnetVersion }}"
+        echo "Docker Image: ${{ steps.config.outputs.dockerImage }}"
+        echo "Docker Registry: ${{ steps.config.outputs.dockerRegistry }}"
 
         
     # - name: Setup .NET Core
