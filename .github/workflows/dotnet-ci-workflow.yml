@@ -38,7 +38,7 @@ jobs:
           const config = JSON.parse(configFile);
     
           // Extract environment-specific config
-          const envConfig = config[${{ inputs.environment }}];
+          const envConfig = config['${{ inputs.environment }}''];
           core.setOutput('dotnetVersion', envConfig.dotnetVersion);
           core.setOutput('dockerImage', envConfig.dockerImage);
           core.setOutput('dockerRegistry', envConfig.dockerRegistry);
