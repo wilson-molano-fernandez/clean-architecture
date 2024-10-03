@@ -30,6 +30,12 @@ jobs:
           core.setOutput('dockerImage', envConfig.dockerImage);
           core.setOutput('dockerRegistry', envConfig.dockerRegistry);
 
+    - name: Show environment config
+      run: |
+        echo "Dotnet Version: ${{ steps.config.outputs.dotnetVersion }}"
+        echo "Docker Image: ${{ steps.config.outputs.dockerImage }}"
+        echo "Docker Registry: ${{ steps.config.outputs.dockerRegistry }}"
+
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
