@@ -17,7 +17,6 @@ jobs:
       - name: Create or Update Gist
         env:
           GIST_TOKEN: ${{ secrets.gist_token }}
-          GIST_ID: ${{ secrets.GIST_ID }}
         run: |
           if [ -z "$GIST_ID" ]; then
             # Create a new Gist
