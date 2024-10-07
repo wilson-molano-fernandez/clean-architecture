@@ -10,6 +10,10 @@ jobs:
         id: guid
         run: echo "name=guid::$(uuidgen)" >> $GITHUB_OUTPUT
 
+      - name: Test
+        run: |
+            echo "Generated GUID: $(uuidgen)" 
+
       - name: Print GUID
         run: | 
             echo "GUID: ${{ steps.guid.outputs.guid }}"
