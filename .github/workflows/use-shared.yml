@@ -3,10 +3,10 @@ name: Use Reusable .NET Core CI Workflow
 on:
   push:
     branches:
-      - main
+      - main1
   pull_request:
     branches:
-      - main
+      - main1
 
 jobs:
   call-reusable-workflow:

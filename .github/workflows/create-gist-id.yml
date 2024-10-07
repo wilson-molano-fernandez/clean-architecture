@@ -1,21 +1,32 @@
-name: Build
+name: Generate and Share GUID via Gist
 
-on:
-  push:      
-    branches: [main]
+on: [push]
 
 jobs:
-  build:
+  generate-and-share-guid:
     runs-on: ubuntu-latest
     steps:
-        - name: Generate GUID
-          id: guid
-          run: echo "::set-output name=guid::$(uuidgen)"
-        - name: Update Gist
-          env:
-            GIST_TOKEN: ${{ github.gist_token }}
-            GIST_ID: "your-gist-id-here"
-          run: |
+      - name: Generate GUID
+        id: guid
+        run: echo "::set-output name=guid::$(uuidgen)"
+
+      - name: Create or Update Gist
+        env:
+          GIST_TOKEN: ${{ secrets.gist_token }}
+          GIST_ID: ${{ secrets.GIST_ID }}
+        run: |
+          if [ -z "$GIST_ID" ]; then
+            # Create a new Gist
+            RESPONSE=$(curl -X POST -H "Authorization: token $GIST_TOKEN" \
+              -d '{"files": {"guid.txt": {"content": "${{ steps.guid.outputs.guid }}"}}}' \
+              "https://api.github.com/gists")
+            NEW_GIST_ID=$(echo $RESPONSE | jq -r '.id')
+            echo "New Gist created: $NEW_GIST_ID"
+            echo "GIST_ID=$NEW_GIST_ID" >> $GITHUB_ENV
+          else
+            # Update existing Gist
             curl -X PATCH -H "Authorization: token $GIST_TOKEN" \
               -d '{"files": {"guid.txt": {"content": "${{ steps.guid.outputs.guid }}"}}}' \
               "https://api.github.com/gists/$GIST_ID"
+            echo "Gist updated: $GIST_ID"
+          fi
