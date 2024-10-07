@@ -1,0 +1,21 @@
+name: Build
+
+on:
+  push:      
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Generate GUID
+          id: guid
+          run: echo "::set-output name=guid::$(uuidgen)"
+        - name: Update Gist
+          env:
+            GIST_TOKEN: ${{ github.gist_token }}
+            GIST_ID: "your-gist-id-here"
+          run: |
+            curl -X PATCH -H "Authorization: token $GIST_TOKEN" \
+              -d '{"files": {"guid.txt": {"content": "${{ steps.guid.outputs.guid }}"}}}' \
+              "https://api.github.com/gists/$GIST_ID"
