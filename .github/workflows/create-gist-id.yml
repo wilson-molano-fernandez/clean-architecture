@@ -30,3 +30,17 @@ jobs:
               "https://api.github.com/gists/$GIST_ID"
             echo "Gist updated: $GIST_ID"
           fi
+
+      - name: Retrieve GUID from Gist
+        id: gist
+        env:
+          GIST_TOKEN: ${{ secrets.GIST_TOKEN }}
+          GIST_ID: ${{ secrets.GIST_ID }}
+        run: |
+          curl -H "Authorization: token $GIST_TOKEN" \
+            "https://api.github.com/gists/$GIST_ID" > gist.json
+          GUID=$(jq -r '.files["guid.txt"].content' gist.json)
+          echo "::set-output name=guid::$GUID"
+
+      - name: Use GUID
+        run: echo "Using GUID ${{ steps.gist.outputs.guid }}"
