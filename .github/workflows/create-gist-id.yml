@@ -10,6 +10,10 @@ jobs:
         id: guid
         run: echo "name=guid::$(uuidgen)" >> $GITHUB_OUTPUT
 
+      - name: Print GUID
+        run: | 
+            echo "GUID: ${{ steps.guid.outputs.guid }}"
+
       - name: Create or Update Gist
         env:
           GIST_TOKEN: ${{ secrets.gist_token }}
