@@ -8,7 +8,7 @@ jobs:
     steps:
       - name: Generate GUID
         id: guid
-        run: echo "::set-output name=guid::$(uuidgen)"
+        run: echo "name=guid::$(uuidgen)" >> $GITHUB_OUTPUT
 
       - name: Create or Update Gist
         env:
