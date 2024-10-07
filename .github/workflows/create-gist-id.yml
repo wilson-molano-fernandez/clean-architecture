@@ -8,15 +8,11 @@ jobs:
     steps:
       - name: Generate GUID
         id: guid
-        run: echo "name=guid::$(uuidgen)" >> $GITHUB_OUTPUT
-
-      - name: Test
-        run: |
-            echo "Generated GUID: $(uuidgen)" 
+        run: echo "GUID=$(uuidgen)" >> $GITHUB_OUTPUT
 
       - name: Print GUID
         run: | 
-            echo "GUID: ${{ steps.guid.outputs.guid }}"
+            echo "GUID: ${{ steps.guid.outputs.GUID }}"
 
       - name: Create or Update Gist
         env:
