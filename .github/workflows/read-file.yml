@@ -21,12 +21,13 @@ jobs:
         run: |
             FILE_PATH='kubernetes/preprod/kustomization.yaml'  # Specify the path to your file
             
-            # Generate a new tag value or set it manually
-            NEW_TAG_VALUE="ref-arch-$(uuidgen)"  # Example: Generating a new UUID for the tag
+            NEW_TAG_VALUE="ref-arch-$(uuidgen)"
+    
+            echo "Before modification:"
+            cat "$FILE_PATH"
             
-            # Use sed to find the line containing 'newTag:' and replace the tag value
             sed -i "s/^newTag:.*/newTag: $NEW_TAG_VALUE/" "$FILE_PATH"
-
+            
             echo "After modification:"
             cat "$FILE_PATH"
 
