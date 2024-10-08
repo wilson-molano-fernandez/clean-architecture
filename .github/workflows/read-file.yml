@@ -26,7 +26,7 @@ jobs:
             echo "Before modification:"
             cat "$FILE_PATH"
             
-            sed -i "s/^newTag:.*/newTag: $NEW_TAG_VALUE/" "$FILE_PATH"
+            sed -i "s/newTag:.*/newTag: $NEW_TAG_VALUE/" "$FILE_PATH"
             
             echo "After modification:"
             cat "$FILE_PATH"
