@@ -1,0 +1,30 @@
+name: Modify File in Another Repository
+
+on:
+  push:
+    branches:
+      - main  # or any branch you want to trigger this workflow
+
+jobs:
+  update-file:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the target repository
+        uses: actions/checkout@v2
+        with:
+          repository: 'wilson-molano-fernandez/AecWebApi'  # Change to the target repository's path
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          ref: 'main'  # Target branch to checkout
+
+      - name: Make changes to the file
+        run: |
+          echo "Adding new content to file.txt" >> file.txt  # Modify your file as needed
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "Update file via GitHub Actions"
+          git push
