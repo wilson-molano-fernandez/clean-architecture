@@ -27,6 +27,9 @@ jobs:
             # Use sed to find the line containing 'newTag:' and replace the tag value
             sed -i "s/^newTag:.*/newTag: $NEW_TAG_VALUE/" "$FILE_PATH"
 
+            echo "After modification:"
+            cat "$FILE_PATH"
+
     #   - name: Make changes to the file
     #     run: |
     #       echo "Adding new content to file.txt" >> file.txt  # Modify your file as needed
