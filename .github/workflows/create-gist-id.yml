@@ -25,7 +25,7 @@ jobs:
               "https://api.github.com/gists")
             NEW_GIST_ID=$(echo $RESPONSE | jq -r '.id')
             echo "New Gist created: $NEW_GIST_ID"
-            echo "GIST_ID=$NEW_GIST_ID" >> $GITHUB_ENV
+            echo "GIST_ID=$NEW_GIST_ID" >> $GITHUB_OUTPUT
           else
             # Update existing Gist
             curl -X PATCH -H "Authorization: token $GIST_TOKEN" \
