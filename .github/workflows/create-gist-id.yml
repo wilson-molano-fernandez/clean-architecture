@@ -1,6 +1,6 @@
 name: Generate and Share GUID via Gist
 
-on: [push]
+on: [workflow_dispatch]
 
 jobs:
   generate-and-share-guid:
