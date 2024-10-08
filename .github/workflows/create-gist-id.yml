@@ -15,6 +15,7 @@ jobs:
             echo "GUID: ${{ steps.guid.outputs.guid }}"
 
       - name: Create or Update Gist
+        id: gist
         env:
           GIST_TOKEN: ${{ secrets.gist_token }}
         run: |
@@ -35,10 +36,10 @@ jobs:
           fi
 
       - name: Retrieve GUID from Gist
-        id: gist
+        id: gistread
         env:
-          GIST_TOKEN: ${{ secrets.GIST_TOKEN }}
-          GIST_ID: ${{ secrets.GIST_ID }}
+          GIST_TOKEN: ${{ secrets.gist_token }}
+          GIST_ID: ${{ steps.gist.outputs.GIST_ID }} 
         run: |
           curl -H "Authorization: token $GIST_TOKEN" \
             "https://api.github.com/gists/$GIST_ID" > gist.json
@@ -46,7 +47,7 @@ jobs:
           echo "GU_ID=$GUID" >> $GITHUB_OUTPUT
 
       - name: Use GUID
-        run: echo "Using GUID ${{ steps.gist.outputs.GU_ID }}"
+        run: echo "Using GUID ${{ steps.gistread.outputs.GU_ID }}"
 
     #   - name: Install jq
     #     run: sudo apt-get install jq # Install jq for JSON parsing
