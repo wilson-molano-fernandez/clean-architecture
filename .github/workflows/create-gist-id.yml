@@ -4,6 +4,8 @@ on: [push]
 
 jobs:
   generate-and-share-guid:
+    env:
+        file_name: guid.txt
     runs-on: ubuntu-latest
     steps:
       - name: Generate GUID
@@ -22,7 +24,7 @@ jobs:
           if [ -z "$GIST_ID" ]; then
             # Create a new Gist
             RESPONSE=$(curl -X POST -H "Authorization: token $GIST_TOKEN" \
-              -d '{"files": {"guid.txt": {"content": "${{ steps.guid.outputs.guid }}"}}}' \
+              -d '{"files": {"${{ env.file_name }}": {"content": "${{ steps.guid.outputs.guid }}"}}}' \
               "https://api.github.com/gists")
             NEW_GIST_ID=$(echo $RESPONSE | jq -r '.id')
             echo "New Gist created: $NEW_GIST_ID"
@@ -30,7 +32,7 @@ jobs:
           else
             # Update existing Gist
             curl -X PATCH -H "Authorization: token $GIST_TOKEN" \
-              -d '{"files": {"guid.txt": {"content": "${{ steps.guid.outputs.guid }}"}}}' \
+              -d '{"files": {"${{ env.file_name }}": {"content": "${{ steps.guid.outputs.guid }}"}}}' \
               "https://api.github.com/gists/$GIST_ID"
             echo "Gist updated: $GIST_ID"
           fi
@@ -43,7 +45,7 @@ jobs:
         run: |
           curl -H "Authorization: token $GIST_TOKEN" \
             "https://api.github.com/gists/$GIST_ID" > gist.json
-          GUID=$(jq -r '.files["guid.txt"].content' gist.json)
+          GUID=$(jq -r '.files["${{ env.file_name }}"].content' gist.json)
           echo "GU_ID=$GUID" >> $GITHUB_OUTPUT
 
       - name: Use GUID
