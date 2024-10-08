@@ -53,7 +53,7 @@ jobs:
 
       - name: Fetch Gist Content
         env:
-          GIST_ID: '${{ steps.gist.outputs.guid }}' # Replace with your actual Gist ID
+          GIST_ID: ${{ steps.gist.outputs.guid }} # Replace with your actual Gist ID
           GIST_FILENAME: 'guid.txt' # Replace with your actual file name in the Gist
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Using the built-in GITHUB_TOKEN for authentication
         run: |
