@@ -47,3 +47,23 @@ jobs:
 
       - name: Use GUID
         run: echo "Using GUID ${{ steps.gist.outputs.guid }}"
+
+      - name: Install jq
+        run: sudo apt-get install jq # Install jq for JSON parsing
+
+      - name: Fetch Gist Content
+        env:
+          GIST_ID: '${{ steps.gist.outputs.guid }}' # Replace with your actual Gist ID
+          GIST_FILENAME: 'guid.txt' # Replace with your actual file name in the Gist
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Using the built-in GITHUB_TOKEN for authentication
+        run: |
+          # Fetch the Gist data using GitHub API
+          curl -H "Authorization: token $GITHUB_TOKEN" \
+               -H "Accept: application/vnd.github.v3+json" \
+               "https://api.github.com/gists/${GIST_ID}" > gist.json
+          
+          # Extract the content of the specific file from the Gist
+          CONTENT=$(jq -r .files."${GIST_FILENAME}".content gist.json)
+          
+          echo "Content of ${GIST_FILENAME}:"
+          echo "$CONTENT"
