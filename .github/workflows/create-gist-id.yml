@@ -43,7 +43,7 @@ jobs:
           curl -H "Authorization: token $GIST_TOKEN" \
             "https://api.github.com/gists/$GIST_ID" > gist.json
           GUID=$(jq -r '.files["guid.txt"].content' gist.json)
-          echo "name=guid::$GUID" >> $GITHUB_OUTPUT
+          echo "guid=$GUID" >> $GITHUB_OUTPUT
 
       - name: Use GUID
         run: echo "Using GUID ${{ steps.gist.outputs.guid }}"
