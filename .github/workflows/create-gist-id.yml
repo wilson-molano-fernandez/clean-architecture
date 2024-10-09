@@ -47,7 +47,7 @@ jobs:
         id: gistread
         env:
           GIST_TOKEN: ${{ secrets.gist_token }}
-          GIST_ID: ${{ steps.gist.outputs.GIST_ID }} 
+          GIST_ID: ${{ secrets.GIST_ID }} 
         run: |
           curl -H "Authorization: token $GIST_TOKEN" \
             "https://api.github.com/gists/$GIST_ID" > gist.json
