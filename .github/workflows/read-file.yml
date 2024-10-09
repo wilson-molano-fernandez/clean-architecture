@@ -3,7 +3,7 @@ name: Modify File in Another Repository
 on:
   push:
     branches:
-      - main  # or any branch you want to trigger this workflow
+      - mainly  # or any branch you want to trigger this workflow
 
 jobs:
   update-file:
