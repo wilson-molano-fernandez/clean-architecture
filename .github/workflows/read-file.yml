@@ -7,6 +7,8 @@ on:
 
 jobs:
   update-file:
+    env:
+        file_name: deployment-image-tag.txt
     runs-on: ubuntu-latest
 
     steps:
@@ -34,7 +36,7 @@ jobs:
         run: |
             FILE_PATH='kubernetes/preprod/kustomization.yaml'  # Specify the path to your file
             
-            NEW_TAG_VALUE="ref-arch-$(uuidgen)"
+            NEW_TAG_VALUE="${{ steps.gistread.outputs.GU_ID }}"
     
             echo "Before modification:"
             cat "$FILE_PATH"
