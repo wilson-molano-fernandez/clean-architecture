@@ -1,15 +1,28 @@
 name: Modify File in Another Repository
 
 on:
-  push:
-    branches:
-      - mainly  # or any branch you want to trigger this workflow
+ workflow_run:
+    workflows: ['Generate and Share GUID via Gist']
+    types: [completed]
 
 jobs:
   update-file:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Retrieve GUID from Gist
+        id: gistread
+        env:
+          GIST_TOKEN: ${{ secrets.gist_token }}
+          GIST_ID: ${{ secrets.GIST_ID }} 
+        run: |
+            curl -H "Authorization: token $GIST_TOKEN" \
+            "https://api.github.com/gists/$GIST_ID" > gist.json
+            GUID=$(jq -r '.files["${{ env.file_name }}"].content' gist.json)
+            echo "GU_ID=$GUID" >> $GITHUB_OUTPUT
+
+      - name: Use GUID
+        run: echo "Using GUID ${{ steps.gistread.outputs.GU_ID }}"
       - name: Checkout the target repository
         uses: actions/checkout@v4
         with:

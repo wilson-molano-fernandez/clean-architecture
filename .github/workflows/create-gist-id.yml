@@ -42,17 +42,3 @@ jobs:
               "https://api.github.com/gists/$GIST_ID"
             echo "Gist updated: $GIST_ID"
           fi
-
-      - name: Retrieve GUID from Gist
-        id: gistread
-        env:
-          GIST_TOKEN: ${{ secrets.gist_token }}
-          GIST_ID: ${{ secrets.GIST_ID }} 
-        run: |
-          curl -H "Authorization: token $GIST_TOKEN" \
-            "https://api.github.com/gists/$GIST_ID" > gist.json
-          GUID=$(jq -r '.files["${{ env.file_name }}"].content' gist.json)
-          echo "GU_ID=$GUID" >> $GITHUB_OUTPUT
-
-      - name: Use GUID
-        run: echo "Using GUID ${{ steps.gistread.outputs.GU_ID }}"
