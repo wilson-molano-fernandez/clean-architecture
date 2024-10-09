@@ -27,18 +27,8 @@ jobs:
           GIST_TOKEN: ${{ secrets.gist_token }}
           GIST_ID: ${{ secrets.gist_id }}
         run: |
-          if [ -z "$GIST_ID" ]; then
-            # Create a new Gist
-            RESPONSE=$(curl -X POST -H "Authorization: token $GIST_TOKEN" \
-              -d '{"files": {"${{ env.file_name }}": {"content": "${{ steps.guid.outputs.image_tag }}"}}}' \
-              "https://api.github.com/gists")
-            NEW_GIST_ID=$(echo $RESPONSE | jq -r '.id')
-            echo "New Gist created: $NEW_GIST_ID"
-            echo "GIST_ID=$NEW_GIST_ID" >> $GITHUB_OUTPUT
-          else
-            # Update existing Gist
             curl -X PATCH -H "Authorization: token $GIST_TOKEN" \
               -d '{"files": {"${{ env.file_name }}": {"content": "${{ steps.guid.outputs.image_tag }}"}}}' \
               "https://api.github.com/gists/$GIST_ID"
             echo "Gist updated: $GIST_ID"
-          fi
+            echo "Gist content: ${{ steps.guid.outputs.image_tag }}"
