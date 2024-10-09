@@ -8,7 +8,7 @@ on:
 jobs:
   generate-and-share-guid:
     env:
-        file_name: guid.txt
+        file_name: deployment-image-tag.txt
     runs-on: ubuntu-latest
     steps:
       - name: Generate GUID
