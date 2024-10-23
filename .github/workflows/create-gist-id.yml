@@ -21,7 +21,7 @@ jobs:
         run: | 
             echo "GUID: ${{ steps.guid.outputs.image_tag }}"
 
-      - name: Create or Update Gist
+      - name: Update Gist
         id: gist
         env:
           GIST_TOKEN: ${{ secrets.gist_token }}
